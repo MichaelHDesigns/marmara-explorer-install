@@ -34,12 +34,16 @@ sudo apt --yes install libsodium-dev
 sudo apt --yes install libzmq3-dev
 
 # install nvm
-wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.35.0/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.38.0/install.sh | bash
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 
 # switch node setup with nvm
-nvm install v4
+nvm install v8
+# change default node to version 8
+nvm alias default v8
+# use node version 8
+nvm use v8
 # npm install bitcore
 npm install git+https://git@github.com/marmarachain/bitcore-node-komodo
 
@@ -91,6 +95,16 @@ cat << EOF > $CUR_DIR/marmara-explorer/bitcore-node.json
     "insight-ui-komodo",
     "web"
   ],
+  "mongo": {
+    "url": "mongodb://localhost",
+    "name": "insightDB_MCL",
+    "collections": [
+      "stats_raw",
+      "stats_raw_diff",
+      "stats_computed_groups",
+      "stats_computed_daily"
+    ]
+  },
   "servicesConfig": {
     "bitcoind": {
       "connect": [
@@ -121,7 +135,7 @@ cat << EOF > $CUR_DIR/marmara-explorer-start.sh
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 cd marmara-explorer
-nvm use v4; ./node_modules/bitcore-node-komodo/bin/bitcore-node start
+nvm use v8; ./node_modules/bitcore-node-komodo/bin/bitcore-node start
 EOF
 sudo chmod +x marmara-explorer-start.sh
 

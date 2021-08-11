@@ -1,14 +1,35 @@
 ## Marmara Insight Explorer
 
 Marmara explorer is based on the **master** branch of [https://github.com/marmarachain/marmara/tree/master](https://github.com/marmarachain/marmara/tree/master). 
+Marmara explorer is extended with mongodb integration to read and write the stats data retrieved through marmaraamountstat rpc call to the node. 
 
 **Prerequisites and Conditions**
 - This guide assumes that Marmara *has already been downloaded* to the machine.
 - Tested on Ubuntu 18.04.5 and Ubuntu 20.04
+- Mongodb installation
+- Nodejs installation (v8)
 
 > For detailed list of dependencies, check out the [package.json](https://github.com/marmarachain/bitcore-node-komodo/blob/master/package.json) file.
 
 ### How to Install?
+
+<b>Install MongoDB</b>
+
+Install mongoDB by following the documentation in [here](https://docs.mongodb.com/manual/administration/install-community).
+
+<b>Test MongoDB connection</b>
+
+One can start the mongod process by issuing the following command:
+
+```sh
+sudo systemctl start mongod
+```
+One can verify that MongoDB has started successfully:
+
+```sh
+sudo systemctl status mongod
+```
+
 Clone the git repo to local machine into a directory named explorer and inside the directory run the bash script to create the Marmara explorer and the relevant bitcore modules: 
 
 ```sh
@@ -51,15 +72,40 @@ explorer
 │	│   │   ...
 ```
 
-Having completed these steps, start the daemon with the starting parameters in another terminal: 
+Having completed these steps, start the Marmara daemon with the starting parameters in another terminal: 
 
 ```sh
 ./komodod -ac_name=MCL -ac_supply=2000000 -ac_cc=2 -addnode=37.148.210.158 -addnode=37.148.212.36 -addressindex=1 -spentindex=1 -ac_marmara=1 -ac_staked=75 -ac_reward=3000000000 &
 ```
-Then, in the command line interface, run the bash script as follows:
+
+Execute the following commands under the insight-api-komodo directory in a seperate terminal:
+
+```
+cd node_modules/insight-api-komodo
+node db-tools.js
+```
+You should see the following output:
+
+```
+Collection stats_raw created
+Collection stats_raw_diff created
+Collection stats_computed_groups created
+Collection stats_computed_daily created
+```
+
+Then, in the command line interface, run the bash script as follows to start explorer normally:
 ```sh
 ./marmara-explorer-start.sh
 ```
+<b>How to reset MongoDB data</b>
+
+Execute the following commands to reset MongoDB data:
+```
+node db-tools.js --drop-all
+node db-tools.js
+```
+This will remove all data and recreate collections from the scratch.
+
 #### Make explorer and MCL run as a service
 
 ```sh
@@ -123,5 +169,7 @@ $ grunt compile
 ## Acknowledgements
 The installation script of @DeckerSU in [here](https://github.com/DeckerSU/komodo-explorers-install) was modified to work for single chain i.e. Marmarachain.  
 Special thanks to @DeckerSu for their hardwork and special thanks to @pbca26 for their valuable contributions, assistance and guide while getting the explorer work.
+
+Gratitude and appreciations are extended to @pbca26 for implementing the mongodb integration along with marmaraamountstat rpc call and upgrading the node explorer to version 8.  
 
 Improvements are welcomed through PR.

@@ -82,6 +82,7 @@ Execute the following commands under the insight-api-komodo directory in a seper
 
 ```
 cd node_modules/insight-api-komodo
+npm rebuild # this installs the dependencies listed inside package.json into node_modules folder 
 node db-tools.js
 ```
 You should see the following output:

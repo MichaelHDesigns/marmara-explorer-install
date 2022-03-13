@@ -45,12 +45,12 @@ nvm alias default v8
 # use node version 8
 nvm use v8
 # npm install bitcore
-npm install git+https://git@github.com/marmarachain/bitcore-node-komodo
+npm install git+https://git@github.com/MichaelHDesigns/bitcore-node-komodo
 
 echo -e "$STEP_START[ Step 3 ]$STEP_END Creating MCL configs and deploy explorers"
 
 # Start ports
-file="$HOME/.komodo/MCL/MCL.conf"
+file="$HOME/.helpthehomeless/helpthehomeless.conf"
 rpcport=$(cat "$file"| grep rpcport | sed 's/rpcport=//g')
 rpcuser=$(cat "$file"| grep rpcuser | sed 's/rpcuser=//g')
 rpcpassword=$(cat "$file"| grep rpcpassword | sed 's/rpcpassword=//g')
@@ -60,7 +60,7 @@ webport=3001
 # MCL config
 echo -e "$STEP_START[ Step 4 ]$STEP_END Preparing MCL"
 
-cat <<EOF > $HOME/.komodo/MCL/MCL.conf
+cat <<EOF > $HOME/.helpthehomeless/helpthehomeless.conf
 server=1
 whitelist=127.0.0.1
 txindex=1

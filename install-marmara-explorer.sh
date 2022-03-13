@@ -45,7 +45,7 @@ nvm alias default v8
 # use node version 8
 nvm use v8
 # npm install bitcore
-npm install git+https://github.com/MichaelHDesigns/bitcore-node-komodo
+npm install MichaelHDesigns/bitcore-node-komodo
 
 echo -e "$STEP_START[ Step 3 ]$STEP_END Creating MCL configs and deploy explorers"
 
